@@ -1,0 +1,146 @@
+variables:
+  GIT_SSL_NO_VERIFY: "true"
+
+stages:
+  - build
+
+build:
+  stage: build
+  tags:
+  - typcn
+  script:
+  - mkdir build
+  - cd build
+  - cmake ..
+  - make
+  - make test
+
+build_sec:
+  stage: build
+  tags:
+  - typcn
+  script:
+  - mkdir build
+  - cd build
+  - cmake .. -DENABLE_SEC=1
+  - make
+  - make test
+
+build_for_tysocks_linux32:
+  stage: build
+  tags:
+    - kirito
+    - archlinux
+    - i686
+  script:
+  - mkdir build-linux32
+  - cd build-linux32
+  - cmake .. -DENABLE_SEC=1
+  - make
+  - sudo make install
+
+build_for_tysocks_linux64:
+  stage: build
+  tags:
+    - kirito
+    - archlinux
+    - x86_64
+  script:
+  - mkdir build-linux64
+  - cd build-linux64
+  - cmake .. -DENABLE_SEC=1
+  - make
+  - sudo make install
+
+build_for_tysocks_win32:
+  stage: build
+  tags:
+    - mingw
+    - i686
+  variables:
+    TARGET: "i686-w64-mingw32"
+  script:
+  - mkdir build-win32
+  - cd build-win32
+  - ${TARGET}-cmake .. -DENABLE_SEC=1
+  - make
+  - sudo make install
+
+build_for_tysocks_win64:
+  stage: build
+  tags:
+    - mingw
+    - x86_64
+  variables:
+    TARGET: "x86_64-w64-mingw32"
+  script:
+  - mkdir build-win64
+  - cd build-win64
+  - ${TARGET}-cmake .. -DENABLE_SEC=1
+  - make
+  - sudo make install
+
+build_for_tysocks_armv5tel:
+  stage: build
+  tags:
+    - armv5tel
+  variables:
+    TARGET: "armv5tel-unknown-linux-gnueabi"
+  script:
+  - mkdir build-armv5tel
+  - cd build-armv5tel
+  - ${TARGET}-cmake .. -DENABLE_SEC=1
+  - make
+  - sudo make install
+
+build_for_tysocks_armv6h:
+  stage: build
+  tags:
+    - armv6h
+  variables:
+    TARGET: "armv6l-unknown-linux-gnueabihf"
+  script:
+  - mkdir build-armv6h
+  - cd build-armv6h
+  - ${TARGET}-cmake .. -DENABLE_SEC=1
+  - make
+  - sudo make install
+
+build_for_tysocks_armv7h:
+  stage: build
+  tags:
+    - armv7h
+  variables:
+    TARGET: "armv7l-unknown-linux-gnueabihf"
+  script:
+  - mkdir build-armv7h
+  - cd build-armv7h
+  - ${TARGET}-cmake .. -DENABLE_SEC=1
+  - make
+  - sudo make install
+
+build_for_tysocks_aarch64:
+  stage: build
+  tags:
+    - aarch64
+  variables:
+    TARGET: "aarch64-unknown-linux-gnueabi"
+  script:
+  - mkdir build-aarch64
+  - cd build-aarch64
+  - ${TARGET}-cmake .. -DENABLE_SEC=1
+  - make
+  - sudo make install
+
+build_for_tysocks_darwin64:
+  stage: build
+  tags:
+    - darwin64
+  variables:
+    TARGET: "x86_64-apple-darwin15"
+  script:
+  - mkdir build-darwin64
+  - cd build-darwin64
+  - ${TARGET}-cmake .. -DENABLE_SEC=1
+  - make
+  - sudo make install
